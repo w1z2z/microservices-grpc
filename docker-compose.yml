@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  postgres-user:
+    image: postgres:16
+    container_name: postgres-user
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: userpass
+      POSTGRES_DB: user_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres-audit:
+    image: postgres:16
+    container_name: postgres-audit
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: audit
+      POSTGRES_PASSWORD: auditpass
+      POSTGRES_DB: audit_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - audit-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  user-db-data:
+  audit-db-data:
+
+networks:
+  default:
+    name: microservices-network

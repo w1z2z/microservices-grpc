@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "audit",
+    "password": "auditpass",
+    "database": "audit_db",
+    "host": "localhost",
+    "port": 5433,
+    "dialect": "postgres"
+  }
+}
