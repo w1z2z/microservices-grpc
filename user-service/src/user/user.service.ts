@@ -5,6 +5,7 @@ import { CreateUserDto, UpdateUserDto, FindAllUserDto, UserResponseDto } from '.
 import { GrpcService } from '../grpc/grpc.service';
 import { v4 as uuidv4 } from 'uuid';
 import { Op } from 'sequelize';
+import {EntityType} from "../grpc/enum/entity-type";
 
 @Injectable()
 export class UserService {
@@ -35,7 +36,7 @@ export class UserService {
 
     await this.grpcService.sendAudit({
       action: 'user_created',
-      entity_type: 1,
+      entity_type: EntityType.User,
       entity_id: user.id,
       request_id: requestId || uuidv4(),
       timestamp: new Date().toISOString(),
@@ -79,7 +80,7 @@ export class UserService {
 
     await this.grpcService.sendAudit({
       action: 'user_updated',
-      entity_type: 1,
+      entity_type: EntityType.User,
       entity_id: user.id,
       request_id: requestId || uuidv4(),
       timestamp: new Date().toISOString(),
@@ -96,7 +97,7 @@ export class UserService {
 
     await this.grpcService.sendAudit({
       action: 'user_deleted',
-      entity_type: 1,
+      entity_type: EntityType.User,
       entity_id: user.id,
       request_id: requestId || uuidv4(),
       timestamp: new Date().toISOString(),
